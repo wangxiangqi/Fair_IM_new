@@ -1,7 +1,7 @@
 # Code base for Fairness constraint to bandit-based online Influence Maximization problem
 
 This is the code reposiratory for paper: "Fairness constraint to bandit-based online Influence
-Maximization problem". Paper link is 
+Maximization problem". Paper link is
 
 ## Experiments and previous plots:
 
@@ -11,25 +11,25 @@ We also tried alpha=0.5 in some case.
 
 Experiments on NBA dataset:
 
-seed size is 10, run 100 iteration,  regret plots can be found in ./presentation/NBA folder.
+seed size is 100, run 100 iteration,  regret plots can be found in ./presentation/NBA folder.
 
-Initial propagation probability in edge allocated as 0.1.
+Initial propagation probability in edge allocated as 2.
 
 Experiments on german dataset:
 
-seed size is 10, run 100 iteration,  regret plots can be found in ./presentation/german folder
+seed size is 300, run 100 iteration,  regret plots can be found in ./presentation/german folder
 
-Initial propagation probability in edge allocated as 0.3.
+Initial propagation probability in edge allocated as 2.
 
-Experiments on 
+Experiments on
 
-seed size is 10, run 100 iteration, regret plots can be found in ./presentation/pokec folder
+seed size is 300, run 100 iteration, regret plots can be found in ./presentation/pokec folder
 
-Initial propagation probability in edge allocated as 0.5.
+Initial propagation probability in edge allocated as 2.
 
 ## Brief explanation of code:
 
-Code reposiratory is based on github repo: 
+Code reposiratory is based on github repo:
 
 Bandit repo: [Matrix-Factorization-Bandit/IMFB-KDD2019: Code for the experiments of Matrix Factorization Bandit (github.com)](https://github.com/Matrix-Factorization-Bandit/IMFB-KDD2019)
 
@@ -43,9 +43,9 @@ python==3.6, see the requirements.txt
 
 ## How to run demo:
 
-for maxmin run FairIM_maxmin.py, for diversity constraint, run FairIM_div.py
+for maxmin run modify in Fair Oracle, for diversity constraint, modify in Fair Oracle
 
-for welfare run FairIM_wel.py.(alpha is in Fair_IM_oracle_wel in Fair_Oracle.py, remember to change alpha if trying different cases.)
+for welfare run IMBandit.py.(alpha is in Fair_IM_oracle_wel in Fair_Oracle.py, remember to change alpha if trying different cases.)
 
 ## Contributors:
 
