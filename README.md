@@ -1,76 +1,52 @@
-# IMBandits
+# Code base for Fairness constraint to bandit-based online Influence Maximization problem
 
-IMBandit.py -- Simulator. Can run the experiments with command ```python IMBandit.py``` 
+This is the code reposiratory for paper: "Fairness constraint to bandit-based online Influence
+Maximization problem". Paper link is 
 
-BanditAlg -- Baselines for running influence maximization problems.
+## Experiments and previous plots:
 
-Oracle/degreeDiscount.py, generalGreedy.py -- Two different oracles (IM algorithm).
+alpha is 1.2 in these experiments.
 
-IC/IC.py -- Independent cascade model, runIC() returns influence result given seed nodes.
+We also tried alpha=0.5 in some case.
 
-conf.py -- The relative parameters used for the experiments. 
+Experiments on NBA dataset:
 
-SimulationResults -- The folder saved for the results. 
+seed size is 10, run 100 iteration,  regret plots can be found in ./presentation/NBA folder.
 
-### Result
+Initial propagation probability in edge allocated as 0.1.
 
-#### Parameter
+Experiments on german dataset:
 
-```python
-graph_address = './datasets/Flickr/Small_Final_SubG.G'
-prob_address = './datasets/Flickr/Probability.dic'
-param_address = './datasets/Flickr/Small_nodeFeatures.dic'
-edge_feature_address = './datasets/Flickr/Small_edgeFeatures.dic'
-dataset = 'Flickr-Random' #Choose from 'default', 'NetHEPT', 'Flickr'
+seed size is 10, run 100 iteration,  regret plots can be found in ./presentation/german folder
 
-dataset = 'Flickr' #Choose from 'default', 'NetHEPT', 'Flickr'
-alpha_1 = 0.1
-alpha_2 = 0.1
-lambda_ = 0.4
-gamma = 0.1
-dimension = 4
-seed_size = 300
-iterations = 200
+Initial propagation probability in edge allocated as 0.3.
 
-oracle = degreeDiscountIAC3
-```
+Experiments on 
 
-#### Experiment
-Result on Flickr dataset: 12812 nodes, 137986 edges
+seed size is 10, run 100 iteration, regret plots can be found in ./presentation/pokec folder
 
-<p float="left">
-<img src="./SimulationResults/AvgReward_Flickr.png" alt="alt text" width="400" height="300">
-<img src="./SimulationResults/loss_Flickr.png" alt="alt text" width="400" height="300">
-</p>
+Initial propagation probability in edge allocated as 0.5.
 
-#### Parameter
+## Brief explanation of code:
 
-```python
-graph_address = './datasets/NetHEPT/Small_Final_SubG.G'
-prob_address = './datasets/NetHEPT/Probability.dic'
-param_address = './datasets/NetHEPT/Small_nodeFeatures.dic'
-edge_feature_address = './datasets/NetHEPT/Small_edgeFeatures.dic'
-dataset = 'NetHEPT' #Choose from 'default', 'NetHEPT', 'Flickr'
+Code reposiratory is based on github repo: 
 
-dataset = 'Flickr' #Choose from 'default', 'NetHEPT', 'Flickr'
-alpha_1 = 0.1
-alpha_2 = 0.1
-lambda_ = 0.4
-gamma = 0.1
-dimension = 4
-seed_size = 300
-iterations = 200
+Bandit repo: [Matrix-Factorization-Bandit/IMFB-KDD2019: Code for the experiments of Matrix Factorization Bandit (github.com)](https://github.com/Matrix-Factorization-Bandit/IMFB-KDD2019)
 
-oracle = degreeDiscountIAC3
-```
+Offline Oracle repo: [bwilder0/fair_influmax_code_release: Code for the paper &#34;Group-Fairness in Influence Maximization&#34; (github.com)](https://github.com/bwilder0/fair_influmax_code_release)
 
+Migration of offline oracle into online version is the core obstacle.
 
-#### Experiment
+## Python Environment:
 
-Result on NetHEPT dataset: 27770 nodes, 352807 edges
+python==3.6, see the requirements.txt
 
-<p float="left">
-<img src="./SimulationResults/AvgReward_NetHEPT.png" alt="alt text" width="400" height="300">
-<img src="./SimulationResults/loss_NetHEPT.png" alt="alt text" width="400" height="300">
-</p>
+## How to run demo:
 
+for maxmin run FairIM_maxmin.py, for diversity constraint, run FairIM_div.py
+
+for welfare run FairIM_wel.py.(alpha is in Fair_IM_oracle_wel in Fair_Oracle.py, remember to change alpha if trying different cases.)
+
+## Contributors:
+
+Xiangqi Wang, wangxiangqi@mail.ustc.edu.cn
