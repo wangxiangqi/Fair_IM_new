@@ -110,11 +110,12 @@ for row in rows:
 #print(my_dict_att)
 #print(my_dict)
 # Save the dictionary to a .dic file
+#print(my_dict)
 new_dict = {}
 for key, value in my_dict.items():
     new_dict[int(key)] = [[float(i) for i in sublist] for sublist in value]
 my_dict=new_dict
-#print(my_dict)
+print(my_dict)
 with open('parameter.dic', 'wb') as f:
     pickle.dump(str(my_dict), f)
 
@@ -122,7 +123,7 @@ new_dict_att = {}
 for key, value in my_dict_att.items():
     new_dict_att[int(key)] = int(value)
 my_dict_att=new_dict_att
-#print(my_dict_att)
+print(my_dict_att)
 with open('Age.dic', 'wb') as f:
     pickle.dump(str(my_dict_att), f)
 
@@ -168,7 +169,7 @@ for source, target in graph.edges():
     #print(graph[source])
     #print(len(graph[source]))
     probability = jaccard_similarity(list(reader.iloc[source]), list(reader.iloc[target]))
-    print("probability",probability)
+    #print("probability",probability)
     #print(f"The probability of edge ({source}, {target}) is {probability}")
     prob_dict[(source, target)] = probability
 
@@ -187,6 +188,7 @@ for edge in edges:
     empty_arr.append(dice_ratio(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
     empty_arr.append(jaccard_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
     empty_arr.append(pearson_correlation(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #print("empty_arr",empty_arr)
     To_load.append(empty_arr)
 #print(To_load)
 To_load=normalize_columns(To_load)
@@ -194,15 +196,17 @@ To_load=normalize_columns(To_load)
 record=0
 for edge in edges:
     source, target = edge.strip().split()
-    souce=int(float(source))
+    source=int(float(source))
     target=int(float(target))
     if source in mapping.keys() and target in mapping.keys():
+        #print("in it")
         source=mapping[source]
         target=mapping[target]
         Edge_feature_dic[(source, target)]=To_load[record]
         record+=1
-#print(Edge_feature_dic)
+print(Edge_feature_dic)
 Edge_feature_dic = {(int(k[0]), int(k[1])): [float(x) for x in v] for k, v in Edge_feature_dic.items()}
+print(Edge_feature_dic)
 with open('edge_feature.dic', 'wb') as f:
     pickle.dump(str(Edge_feature_dic), f)
 

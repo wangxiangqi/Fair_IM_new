@@ -44,7 +44,7 @@ class LinUCBUserStruct:
 		return pta
 
 class N_LinUCBAlgorithm:
-	def __init__(self, parameter, node_list, seed_size, oracle, dimension, alpha,  lambda_ , feedback = 'edge'):
+	def __init__(self,G,P, parameter, node_list, seed_size, oracle, dimension, alpha,  lambda_ , feedback = 'edge'):
 		self.param = parameter
 		self.node_list = node_list
 		self.oracle = oracle
@@ -64,7 +64,25 @@ class N_LinUCBAlgorithm:
 		n = len(self.node_list)
 		MG = np.zeros((n, 2))
 		MG[:, 0] = np.arange(n)
-		influence_UCB = np.matmul(self.Theta, self.param[:, :self.dimension].T)
+		#self.param=tuple(self.param)
+		self.param=list(self.param.values())
+		#print(self.param[0])
+		self.param=np.array(self.param)
+		#result = []
+		#for item in self.param:
+			#print(item)
+			#print(type(item))
+		#	if isinstance(item.tolist(), list):
+		#		result.extend(item.flatten().tolist())
+		#	else:
+		#		result.append(item.tolist())
+		#self.param=np.array(result)
+		#self.Theta=np.reshape(self.Theta, (4, 2, -1))
+		print(self.param[:, :self.dimension].T)
+		print(self.param[:, :self.dimension].T.shape)
+		print(self.Theta.shape)
+		#self.Theta=np.reshape(self.Theta, (4, 2, -1))
+		influence_UCB = np.matmul(self.Theta, self.param[:, :self.dimension].T.reshape((self.dimension,-1)))
 		np.fill_diagonal(influence_UCB, 1)
 		np.clip(influence_UCB, 0, 1)
 		MG[:, 1] = np.sum(influence_UCB, axis=1)
@@ -137,7 +155,7 @@ class LinUCBAlgorithm:
 		S = self.oracle(self.G, self.seed_size, self.currentP)
 		return S
 
-	def updateParameters(self, S, live_nodes, live_edges):
+	def updateParameters(self, S, live_nodes, live_edges, iter_):
 		for u in S:
 			for (u, v) in self.G.edges(u):
 				featureVector = self.FeatureDic[(u,v)]

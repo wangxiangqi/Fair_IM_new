@@ -7,6 +7,8 @@ class LinUCBUserStruct:
 	def __init__(self, featureDimension,lambda_, userID, RankoneInverse = False):
 		self.userID = userID
 		self.d = featureDimension
+		#print(self.d)
+		#print(np.identity(n = self.d))
 		self.A = lambda_*np.identity(n = self.d)
 		self.b = np.zeros(self.d)
 		self.AInv = np.linalg.inv(self.A)
@@ -17,7 +19,10 @@ class LinUCBUserStruct:
 		self.pta_max = 1
 		
 	def updateParameters(self, articlePicked_FeatureVector, click):
+		articlePicked_FeatureVector = np.array(articlePicked_FeatureVector)[:, np.newaxis, np.newaxis, np.newaxis].flatten()
 		self.A += np.outer(articlePicked_FeatureVector,articlePicked_FeatureVector)
+		#print(self.b)
+		#print(articlePicked_FeatureVector)
 		self.b += articlePicked_FeatureVector*click
 		if self.RankoneInverse:
 			temp = np.dot(self.AInv, articlePicked_FeatureVector)

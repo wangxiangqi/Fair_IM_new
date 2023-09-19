@@ -123,7 +123,7 @@ def make_multilinear_gradient_group(live_graphs, group_indicator, target_nodes, 
     '''
     Gs, Ps, start_poses, ws = live_edge_to_edgelist(live_graphs, target_nodes, p_attend)    
     def gradient(x, batch_size):
-        print("sucessfully loaded gradient")
+        #print("sucessfully loaded gradient")
         def is_matrix_all_zero(matrix):
             for row in matrix:
                 for element in row:

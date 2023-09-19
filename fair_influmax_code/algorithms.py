@@ -27,7 +27,7 @@ def make_normalized(f, targets):
         return f(x, *args)@np.diag(1./targets)
     return normalized
 
-def make_welfare(f, targets,alpha=2):
+def make_welfare(f, targets,alpha=-2):
     def wel(x, *args):
         #portion=f(x, *args)@np.diag(1./targets)
         #portion=np.mean(portion)
@@ -41,10 +41,17 @@ def make_welfare(f, targets,alpha=2):
         #print("matrix",matrix)
         max_dim = max(matrix.shape)
         #print("max_dim is",max_dim)
-        padded_matrix = np.pad(matrix, ((0, max_dim - matrix.shape[0]), (0, max_dim - matrix.shape[1])))
-        temp=len(targets)*fractional_matrix_power(padded_matrix,alpha)/alpha
-        result = temp[:matrix.shape[0], :matrix.shape[1]]
-        return result
+        #A=np.linalg.inv(matrix)
+        #padded_matrix = np.pad(matrix, ((0,abs(max_dim - matrix.shape[0])), (0, abs(max_dim - matrix.shape[1]))), mode="linear_ramp")
+        #padded_matrix=np.linalg.pinv(padded_matrix)
+        #print("padded_matrix is",padded_matrix)
+        if alpha>0:
+            #padded_matrix = np.pad(matrix, ((0, max_dim - matrix.shape[0]), (0, max_dim - matrix.shape[1])))
+            temp=len(targets)*np.power(matrix,alpha)/alpha
+        else:
+            temp=len(targets)*np.power(matrix,alpha)/alpha
+        #result = temp[:matrix.shape[0], :matrix.shape[1]]
+        return temp
     return wel
 
 def make_contracted_function(f, S):
@@ -230,11 +237,16 @@ def threshold_include(n_items, val_oracle, threshold):
     for i in range(n_items):
         #print("i",i)
         x[i] = 1
-        if random.choice([0,0,0,0,0,0,1]):
-            vals = val_oracle(x, 3)
-            #print(vals.max(),threshold)
-            if vals.max() >= threshold:
-                to_include.append(i)
+        #if random.choice([0,0,0,0,0,0,1]):
+        #    vals = val_oracle(x, 3)
+        #    print(vals.max(),threshold)
+        #    if vals.max() >= threshold:
+        #        to_include.append(i)
+        #x[i] = 0
+        vals = val_oracle(x, 3)
+        #print(vals.max(),threshold)
+        if vals.max() >= threshold:
+            to_include.append(i)
         x[i] = 0
     return to_include
 

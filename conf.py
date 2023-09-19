@@ -12,11 +12,11 @@ save_address = "./SimulationResults"
 #edge_feature_address = './datasets/Flickr/Small_edgeFeatures.dic'
 #dataset = 'Flickr-Random' #Choose from 'default', 'NetHEPT', 'Flickr'
 
-# graph_address = './datasets/Flickr/G_Union.G'
-# prob_address = './datasets/Flickr/ProbUnion.dic'
-# param_address = './datasets/Flickr/NodeFeaturesUnion.dic'
-# edge_feature_address = './datasets/Flickr/EdgeFeaturesUnion.dic'
-# dataset = 'Flickr-Cluster' #Choose from 'default', 'NetHEPT', 'Flickr'
+#graph_address = './datasets/Flickr/G_Union.G'
+#prob_address = './datasets/Flickr/ProbUnion.dic'
+#param_address = './datasets/Flickr/NodeFeaturesUnion.dic'
+#edge_feature_address = './datasets/Flickr/EdgeFeaturesUnion.dic'
+#dataset = 'Flickr-Cluster' #Choose from 'default', 'NetHEPT', 'Flickr'
 
 # graph_address = './datasets/NetHEPT/Small_Final_SubG.G'
 # prob_address = './datasets/NetHEPT/Probability.dic'
@@ -60,6 +60,6 @@ lambda_ = 0.4
 gamma = 0.1
 dimension = 4
 seed_size = 300
-iterations = 100
+iterations = 200
 
-oracle = degreeDiscountIAC3
+oracle = Fair_IM_oracle

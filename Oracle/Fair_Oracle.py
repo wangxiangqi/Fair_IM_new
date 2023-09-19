@@ -15,7 +15,7 @@ import numpy as np
 
 attributes=["key3"]
 
-alpha=2
+alpha=-2
 
 def runICmodel (G, S, P):
     ''' Runs independent cascade model.
@@ -134,17 +134,17 @@ def Fair_IM_oracle(G,K,currentPg):
         all_opt = np.array([opt_attr[val] for val in values])
 
         solver="md"
-        threshold = 140
+        threshold = -20
         #threshold 120 for NBA datasets
-        #threshold 130 for german dataset
-        #threshold 400 for pokec dataset
+        #threshold 130 for german dataset, -15 for negative alpha
+        #threshold 1300 for pokec dataset
         targets = [opt_attr[val] for val in values]
         #print("S_att is",S_attr)
         targets = np.array(targets)
         print('ready to run fair algorithm')
         #The algo overhere is to to run two different algorithm, one focused on Diversity Fairness, another on Maximin fairness
 
-        
+        """
         #The first one is on diversity constraint
         fair_x = algo(grad_oracle, val_oracle, threshold, K, group_indicator, np.array(targets), 2, solver)[1:]
         #print("fair_x output")
@@ -152,7 +152,7 @@ def Fair_IM_oracle(G,K,currentPg):
         fair_x = fair_x.mean(axis=0)
         set_to_fair=[i for i, x in enumerate(fair_x) if x == 1]
         print("set_to_fair",set_to_fair)
-        
+        """
         # The second is on the maximin constraint
         """
         print("ready to run maximin oracle")
@@ -165,14 +165,14 @@ def Fair_IM_oracle(G,K,currentPg):
         """
 
         #The third algorithm is on the welfare function submodular maximization:
-        """
+        
         grad_oracle=make_welfare(grad_oracle, group_size[attribute][0], alpha)
         val_oracle=make_welfare(val_oracle,group_size[attribute][0], alpha)
-        wel_x = algo(grad_oracle, val_oracle, threshold, K, group_indicator, np.array(targets), 10, solver)[1:]
+        wel_x = algo(grad_oracle, val_oracle, threshold, K, group_indicator, np.array(targets), 4, solver)[1:]
         wel_x = wel_x.mean(axis=0)
         set_to_fair=[i for i, x in enumerate(wel_x) if x == 0]
         print("set_to_fair",set_to_fair)
-        """
+        
         
         
 

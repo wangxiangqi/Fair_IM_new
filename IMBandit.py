@@ -9,7 +9,8 @@ from conf import *
 from Tool.utilFunc import *
 
 from BanditAlg.CUCB import UCB1Algorithm
-from BanditAlg.DILinUCB import N_LinUCBAlgorithm
+from BanditAlg.DILinUCB import LinUCBAlgorithm
+from BanditAlg.IMLinUCB import N_LinUCBAlgorithm
 from BanditAlg.greedy import eGreedyAlgorithm
 from BanditAlg.IMFB import MFAlgorithm
 from IC.IC import runIC, runICmodel, runICmodel_n
@@ -22,7 +23,7 @@ from icm import sample_live_icm, make_multilinear_objective_samples_group, make_
 from algorithms import algo, maxmin_algo, make_normalized, indicator
 
 
-alpha = 2
+alpha = -2
 attributes=["key3"]
 
 def multi_to_set(f, n = None):
@@ -40,12 +41,14 @@ def Get_reward(G,seed_size,live_nodes,live_edges):
     #Implement reward under maximin restriction:
     """
     Maximin_reward=[]
+    Maxmin_lent=[]
     for attribute in attributes:
         values = np.unique([G.node[v]['node_type'][attribute] for v in G.nodes()])
         nodes_attr = {}
         for vidx, val in enumerate(values):
             nodes_attr[val] = [v for v in G.nodes() if G.node[v]['node_type'][attribute] == val]
         temp_arr=[]
+        temp_ll=[]
         for key,item in nodes_attr.items():
             set_of_values=set(item)
             set_of_live_nodes=set(live_nodes)
@@ -53,19 +56,29 @@ def Get_reward(G,seed_size,live_nodes,live_edges):
             # Convert the intersection set back to a list (if needed)
             intersection_list = list(intersection)
             temp_arr.append(len(intersection_list)/len(set_of_values))
+            temp_ll.append(len(set_of_values))
         Maximin_reward.append(temp_arr)
+        Maxmin_lent.append(temp_ll)
     Maximin_reward=[item for sublist in Maximin_reward for item in sublist]
-    Maximin_reward=min(Maximin_reward)
-    """
-    #Implement reward under diversity restriction:
+    Maxmin_lent=[item for sublist in Maxmin_lent for item in sublist]
+    Maximin_PORTION=min(Maximin_reward)
+    index=Maximin_reward.index(Maximin_PORTION)
+    #Numnodes=Maxmin_lent[index]
+
+    Final_reward=Maximin_PORTION
+    return Final_reward
     
+    #Implement reward under diversity restriction:
+    """
     Diversity_reward=[]
+    Diversity_lent=[]
     for attribute in attributes:
         values = np.unique([G.node[v]['node_type'][attribute] for v in G.nodes()])
         nodes_attr = {}
         for vidx, val in enumerate(values):
             nodes_attr[val] = [v for v in G.nodes() if G.node[v]['node_type'][attribute] == val]
         temp_arr=[]
+        temp_ll=[]
         for key,item in nodes_attr.items():
             set_of_values=set(item)
             set_of_live_nodes=set(live_nodes)
@@ -83,12 +96,18 @@ def Get_reward(G,seed_size,live_nodes,live_edges):
                 temp_arr.append(0)
             else:
                 temp_arr.append(len(intersection)/len(set_of_values))
+            temp_ll.append(len(set_of_values))
         Diversity_reward.append(temp_arr)
+        Diversity_lent.append(temp_ll)
     Diversity_reward=[item for sublist in Diversity_reward for item in sublist]
-    Diversity_reward=sum(Diversity_reward) / len(Diversity_reward)
+    #Diversity_reward=sum(Diversity_reward) / len(Diversity_reward)
     #sum_array = [a + b for a, b in zip(Maximin_reward, Diversity_reward)]
+    Diversity_lent=[item for sublist in Diversity_lent for item in sublist]
+    Final_reward=0
+    for i in range(len(Diversity_lent)):
+        Final_reward+=Diversity_lent[i]*Diversity_reward[i]
+    return Final_reward
     
-    return Diversity_reward
 
 def Get_reward_wel(G,seed_size,live_nodes,live_edges):
     #Implement reward under maximin restriction:
@@ -140,17 +159,18 @@ class simulateOnlineData:
         UCB1=[]
         IMFB=[]
         e_gred=[]
+        Lin_UCB=[]
         for iter_ in range(self.iterations):
             optimal_reward, live_nodes, live_edges = runICmodel_n(G, optS, self.TrueP)
             print("live_nodes",len(live_nodes),len(live_edges))
-            optimal_reward=Get_reward(G,self.seed_size,live_nodes,live_edges)
+            optimal_reward=Get_reward_wel(G,self.seed_size,live_nodes,live_edges)
             self.result_oracle.append(optimal_reward)
             print('oracle', optimal_reward)
             
             for alg_name, alg in list(algorithms.items()): 
                 S = alg.decide() 
                 reward, live_nodes, live_edges = runICmodel_n(G, S, self.TrueP)
-                reward=Get_reward(G,self.seed_size,live_nodes,live_edges)
+                reward=Get_reward_wel(G,self.seed_size,live_nodes,live_edges)
                 print("reward gap",optimal_reward-reward)
                 if iter_==0 and ('{}'.format(alg_name))=='UCB1':
                     UCB1.append(optimal_reward-reward)
@@ -167,6 +187,11 @@ class simulateOnlineData:
                 elif ('{}'.format(alg_name))=='egreedy_0.1':
                     e_gred.append(e_gred[iter_-1]+optimal_reward-reward)
 
+                if iter_==0 and ('{}'.format(alg_name))=='LinUCB':
+                    Lin_UCB.append(optimal_reward-reward)
+                elif ('{}'.format(alg_name))=='LinUCB':
+                    Lin_UCB.append(Lin_UCB[iter_-1]+optimal_reward-reward)
+
                 
                 alg.updateParameters(S, live_nodes, live_edges, iter_)
 
@@ -174,17 +199,21 @@ class simulateOnlineData:
             self.resultRecord(iter_)
         for alg_name, alg in list(algorithms.items()): 
             plt.plot(UCB1)
-            with open('CUCBgermanIAC_AC_d.pkl', 'wb') as f:
+            with open('CUCBgermanfair_AC_wel_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(UCB1, f)
             plt.plot(IMFB)
-            with open('IMFBgermanIAC_AC_d.pkl', 'wb') as f:
+            with open('IMFBgermanfair_AC_wel_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(IMFB, f)
             plt.plot(e_gred)
-            with open('egredgermanIAC_AC_d.pkl', 'wb') as f:
+            with open('egredgermanfair_AC_wel_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(e_gred, f)
+            plt.plot(Lin_UCB)
+            with open('LinUCBgermanfair_AC_wel_p_n.pkl', 'wb') as f:
+            # serialize and save set to file
+                pickle.dump(Lin_UCB, f)
             plt.xlabel('Time Steps')
             plt.ylabel('Regret')
             plt.title('Regret in Bandit Problem')
@@ -268,10 +297,13 @@ if __name__ == '__main__':
     start = time.time()
 
     G = pickle.load(open(graph_address, 'rb'), encoding='latin1')
+    print(G.nodes())
     prob = pickle.load(open(prob_address, 'rb'), encoding='latin1')
     prob=ast.literal_eval(prob)
     parameter = pickle.load(open(param_address, 'rb'), encoding='latin1')
     parameter=ast.literal_eval(parameter)
+    #print(parameter.keys())
+    #print(parameter)
     Node_attr={}
     for key in parameter:
         if key in G.nodes():
@@ -284,6 +316,13 @@ if __name__ == '__main__':
     #print(Node_attr)
     nx.set_node_attributes(G, values = Node_attr, name='node_type') 
     feature_dic = pickle.load(open(edge_feature_address, 'rb'), encoding='latin1')
+    #print(feature_dic)
+    feature_dic=ast.literal_eval(feature_dic)
+    print(feature_dic)
+    #print(type(feature_dic))
+    #print(feature_dic)
+    #print(feature_dic.keys())
+    #print(feature_dic[(6057, 6161)])
     #print(G.edges())
     P = nx.DiGraph()
     for (u,v) in G.edges():
@@ -296,13 +335,15 @@ if __name__ == '__main__':
     print('edges:', len(G.edges()))
     print('Done with Loading Feature')
     print('Graph build time:', time.time() - start)
-    
+    Node_list=G.nodes()
     simExperiment = simulateOnlineData(G, P, oracle, seed_size, iterations, dataset)
 
     algorithms = {}
     algorithms['UCB1'] = UCB1Algorithm(G, P, parameter, seed_size, oracle)
     algorithms['egreedy_0.1'] = eGreedyAlgorithm(G, seed_size, oracle, 0.1)
-    #algorithms['LinUCB'] = N_LinUCBAlgorithm(G, P, parameter, seed_size, oracle, dimension*dimension, alpha_1, lambda_, feature_dic, 1)
+    algorithms['LinUCB'] = LinUCBAlgorithm(G, seed_size, oracle, dimension, alpha_1, lambda_, feature_dic)
+    node_list=G.nodes()
+    algorithms['LinUCB'] = N_LinUCBAlgorithm(G,P,parameter,seed_size, oracle, dimension, alpha_1, lambda_, feature_dic,1)
     algorithms['IMFB'] = MFAlgorithm(G, P, parameter, seed_size, oracle, dimension)
 
     simExperiment.runAlgorithms(algorithms)

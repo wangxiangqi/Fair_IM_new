@@ -209,9 +209,18 @@ for edge in graph.edges():
     empty_arr.append(dice_ratio(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
     empty_arr.append(jaccard_similarity(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
     empty_arr.append(pearson_correlation(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
+    #A=[]
+    #A.append(empty_arr)
+    #A.append(empty_arr)
+    #A.append(empty_arr)
+    #A.append(empty_arr)
+    #A=empty_arr*1
     To_load.append(empty_arr)
-#print(To_load)
-To_load=normalize_columns(To_load)
+    #To_load.append(empty_arr)
+    #To_load.append(empty_arr)
+    #To_load.append(empty_arr)
+print(To_load[0])
+#To_load=normalize_columns(To_load)
 #print("after normalized to_load",To_load)
 record=0
 for edge in graph.edges():
