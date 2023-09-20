@@ -93,12 +93,28 @@ def mirror_sp(x, grad_oracle, k, group_indicator, group_targets, num_iter, step_
             g=grad_oracle(x, 400)
             print("tuned None")
         #g=np.diag(temp_we)[:v.shape[0],:y.shape[0]]
+        for i in range(len(g)):
+            for j in range(len(g[i])):
+                if g[i][j] == float('-inf'):
+                    g[i][j] = 1
+        #print("g is",g)
+        #print("group weights",np.diag(group_weights))
         group_grad = g @ np.diag(group_weights)
         #print("shape of group_grad",group_grad.shape)
         #print("shape of y",y.shape)
         #print(v.shape[0])
+        #Pad the group_grad matrix:
+        #print("original matrix",group_grad)
+        #padded_matrix = np.pad(group_grad, ((0,v.shape[1] - group_grad.shape[0]), (0, y.shape[0] - group_grad.shape[1])), mode="linear_ramp")
+        #group_grad=padded_matrix
+        #print("group_grad matrix",group_grad)
+        #print("group_grad matrix",group_grad.shape)
+        #print("v matrix",v.shape)
+        #group_grad=np.array(group_grad)[:v.shape[1],y.shape[0]]
+        #print("new matrix",group_grad)
         grad_v = group_grad@y
-        grad_y = v@group_grad
+        grad_y = np.dot(v,group_grad)
+        #Use broadcast
         #gradient step
         v = v * np.exp(step_size*grad_v)
         y = y*np.exp(-step_size*grad_y)

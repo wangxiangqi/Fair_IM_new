@@ -15,11 +15,11 @@ import numpy as np
 
 attributes=["key3"]
 
-alpha=-2
+alpha=0.5
 
 def runICmodel (G, S, P):
     ''' Runs independent cascade model.
-    Input: G -- networkx graph object
+    Iput: G -- networkx graph object
     S -- initial set of vertices
     p -- propagation probability
     Output: T -- resulted influenced set of vertices (including S)
@@ -134,9 +134,9 @@ def Fair_IM_oracle(G,K,currentPg):
         all_opt = np.array([opt_attr[val] for val in values])
 
         solver="md"
-        threshold = -20
+        threshold = 10
         #threshold 120 for NBA datasets
-        #threshold 130 for german dataset, -15 for negative alpha
+        #threshold 130 for german dataset, -30 for negative alpha
         #threshold 1300 for pokec dataset
         targets = [opt_attr[val] for val in values]
         #print("S_att is",S_attr)

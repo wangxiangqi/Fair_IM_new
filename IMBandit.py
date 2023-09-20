@@ -23,7 +23,7 @@ from icm import sample_live_icm, make_multilinear_objective_samples_group, make_
 from algorithms import algo, maxmin_algo, make_normalized, indicator
 
 
-alpha = -2
+alpha = 0.5
 attributes=["key3"]
 
 def multi_to_set(f, n = None):
@@ -199,19 +199,19 @@ class simulateOnlineData:
             self.resultRecord(iter_)
         for alg_name, alg in list(algorithms.items()): 
             plt.plot(UCB1)
-            with open('CUCBgermanfair_AC_wel_p_n.pkl', 'wb') as f:
+            with open('CUCBgermanfair_AC_wel_p_h.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(UCB1, f)
             plt.plot(IMFB)
-            with open('IMFBgermanfair_AC_wel_p_n.pkl', 'wb') as f:
+            with open('IMFBgermanfair_AC_wel_p_h.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(IMFB, f)
             plt.plot(e_gred)
-            with open('egredgermanfair_AC_wel_p_n.pkl', 'wb') as f:
+            with open('egredgermanfair_AC_wel_p_h.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(e_gred, f)
             plt.plot(Lin_UCB)
-            with open('LinUCBgermanfair_AC_wel_p_n.pkl', 'wb') as f:
+            with open('LinUCBgermanfair_AC_wel_p_h.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(Lin_UCB, f)
             plt.xlabel('Time Steps')
