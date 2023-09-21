@@ -260,7 +260,7 @@ def threshold_include(n_items, val_oracle, threshold):
         #        to_include.append(i)
         #x[i] = 0
         vals = val_oracle(x, 3)
-        #print(vals.max(),threshold)
+        print(vals.max(),threshold)
         if vals.max() >= threshold:
             to_include.append(i)
         x[i] = 0

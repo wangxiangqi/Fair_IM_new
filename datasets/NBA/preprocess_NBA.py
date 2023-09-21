@@ -154,14 +154,19 @@ import numpy as np
 for edge in edges:
     source, target = edge.strip().split()
     #reader = reader.apply((reader[reader.iloc[:, 0] == source],reader[reader.iloc[:, 0] == target]), axis=1)
+    source=mapping[source]
+    target=mapping[target]
     empty_arr=[]
-    empty_arr.append(cosine_similarity(reader[reader.iloc[:, 0] == int(source)].stack()[1:7], reader[reader.iloc[:, 0] == int(target)].stack()[1:7]))
-    empty_arr.append(dice_ratio(reader[reader.iloc[:, 0] == int(source)].stack()[1:7], reader[reader.iloc[:, 0] == int(target)].stack()[1:7]))
-    empty_arr.append(jaccard_similarity(reader[reader.iloc[:, 0] == int(source)].stack()[1:7], reader[reader.iloc[:, 0] == int(target)].stack()[1:7]))
-    empty_arr.append(pearson_correlation(reader[reader.iloc[:, 0] == int(source)].stack()[1:7], reader[reader.iloc[:, 0] == int(target)].stack()[1:7]))
+    empty_arr.append(np.outer(list(reader.iloc[source])[3:7], list(reader.iloc[target])[3:7]))
+    empty_arr=normalize_columns(empty_arr)
+    #empty_arr.append(cosine_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #empty_arr.append(dice_ratio(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #empty_arr.append(jaccard_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #empty_arr.append(pearson_correlation(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #print("empty_arr",empty_arr)
     To_load.append(empty_arr)
 #print(To_load)
-To_load=normalize_columns(To_load)
+#To_load=normalize_columns(To_load)
 #print("after normalized to_load",To_load)
 record=0
 for edge in edges:
@@ -172,7 +177,7 @@ for edge in edges:
         Edge_feature_dic[(source, target)]=To_load[record]
         record+=1
 #print(Edge_feature_dic)
-Edge_feature_dic = {(int(k[0]), int(k[1])): [float(x) for x in v] for k, v in Edge_feature_dic.items()}
+Edge_feature_dic = {(k[0], k[1]): list(v) for k, v in Edge_feature_dic.items()}
 with open('edge_feature.dic', 'wb') as f:
     pickle.dump(str(Edge_feature_dic), f)
 

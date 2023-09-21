@@ -13,7 +13,7 @@ from copy import deepcopy
 from random import random
 import numpy as np
 
-attributes=["key3"]
+attributes=["key8"]
 
 alpha=0.5
 
@@ -134,10 +134,10 @@ def Fair_IM_oracle(G,K,currentPg):
         all_opt = np.array([opt_attr[val] for val in values])
 
         solver="md"
-        threshold = 10
+        threshold = 0.2
         #threshold 120 for NBA datasets
-        #threshold 130 for german dataset, -30 for negative alpha
-        #threshold 1300 for pokec dataset
+        #threshold 130 for german dataset, -30 for negative alpha, 4.3 for alpha=0.5
+        #threshold 1300 for pokec dataset, 0.2 for maxmin case
         targets = [opt_attr[val] for val in values]
         #print("S_att is",S_attr)
         targets = np.array(targets)
@@ -154,7 +154,7 @@ def Fair_IM_oracle(G,K,currentPg):
         print("set_to_fair",set_to_fair)
         """
         # The second is on the maximin constraint
-        """
+        
         print("ready to run maximin oracle")
         grad_oracle_normalized = make_normalized(grad_oracle, group_size[attribute][0])
         val_oracle_normalized = make_normalized(val_oracle, group_size[attribute][0])
@@ -162,17 +162,17 @@ def Fair_IM_oracle(G,K,currentPg):
         minmax_x = minmax_x.mean(axis=0)
         set_to_fair=[i for i, x in enumerate(minmax_x) if x == 0]
         print("set_to_fair",set_to_fair)
-        """
+        
 
         #The third algorithm is on the welfare function submodular maximization:
-        
+        """
         grad_oracle=make_welfare(grad_oracle, group_size[attribute][0], alpha)
         val_oracle=make_welfare(val_oracle,group_size[attribute][0], alpha)
         wel_x = algo(grad_oracle, val_oracle, threshold, K, group_indicator, np.array(targets), 4, solver)[1:]
         wel_x = wel_x.mean(axis=0)
         set_to_fair=[i for i, x in enumerate(wel_x) if x == 0]
         print("set_to_fair",set_to_fair)
-        
+        """
         
         
 

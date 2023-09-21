@@ -33,7 +33,7 @@ edge_feature_address = './datasets/NBA/edge_feature.dic'
 class_feature_address = './datasets/NBA/country.dic'
 dataset = 'NBA' #Choose from 'default', 'NetHEPT', 'Flickr'
 """
-
+"""
 graph_address = './datasets/german/german_relationship.G'
 prob_address = './datasets/german/german_prob.dic'
 param_address = './datasets/german/parameter.dic'
@@ -42,8 +42,8 @@ edge_feature_address = './datasets/german/edge_feature.dic'
 # Choose the third column of edge feature as class feature
 class_feature_address = './datasets/german/Age.dic'
 dataset = 'german' #Choose from 'default', 'NetHEPT', 'Flickr'
-
 """
+
 graph_address = './datasets/pokec/pokec_relationship.G'
 prob_address = './datasets/pokec/prob.dic'
 param_address = './datasets/pokec/parameter.dic'
@@ -53,7 +53,7 @@ edge_feature_address = './datasets/pokec/edge_feature.dic'
 class_feature_address = './datasets/pokec/gender.dic'
 #I made a mistake here, actually the distribution is age that I selected.
 dataset = 'pokec' #Choose from 'default', 'NetHEPT', 'Flickr'
-"""
+
 alpha_1 = 0.1
 alpha_2 = 0.1
 lambda_ = 0.4
@@ -62,4 +62,4 @@ dimension = 4
 seed_size = 300
 iterations = 200
 
-oracle = Fair_IM_oracle
+oracle = degreeDiscountIAC3

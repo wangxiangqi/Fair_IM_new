@@ -24,7 +24,7 @@ from algorithms import algo, maxmin_algo, make_normalized, indicator
 
 
 alpha = 0.5
-attributes=["key3"]
+attributes=["key8"]
 
 def multi_to_set(f, n = None):
     '''
@@ -39,7 +39,7 @@ def multi_to_set(f, n = None):
 
 def Get_reward(G,seed_size,live_nodes,live_edges):
     #Implement reward under maximin restriction:
-    """
+    
     Maximin_reward=[]
     Maxmin_lent=[]
     for attribute in attributes:
@@ -69,6 +69,7 @@ def Get_reward(G,seed_size,live_nodes,live_edges):
     return Final_reward
     
     #Implement reward under diversity restriction:
+    
     """
     Diversity_reward=[]
     Diversity_lent=[]
@@ -107,7 +108,7 @@ def Get_reward(G,seed_size,live_nodes,live_edges):
     for i in range(len(Diversity_lent)):
         Final_reward+=Diversity_lent[i]*Diversity_reward[i]
     return Final_reward
-    
+    """
 
 def Get_reward_wel(G,seed_size,live_nodes,live_edges):
     #Implement reward under maximin restriction:
@@ -163,14 +164,14 @@ class simulateOnlineData:
         for iter_ in range(self.iterations):
             optimal_reward, live_nodes, live_edges = runICmodel_n(G, optS, self.TrueP)
             print("live_nodes",len(live_nodes),len(live_edges))
-            optimal_reward=Get_reward_wel(G,self.seed_size,live_nodes,live_edges)
+            optimal_reward=Get_reward(G,self.seed_size,live_nodes,live_edges)
             self.result_oracle.append(optimal_reward)
             print('oracle', optimal_reward)
             
             for alg_name, alg in list(algorithms.items()): 
                 S = alg.decide() 
                 reward, live_nodes, live_edges = runICmodel_n(G, S, self.TrueP)
-                reward=Get_reward_wel(G,self.seed_size,live_nodes,live_edges)
+                reward=Get_reward(G,self.seed_size,live_nodes,live_edges)
                 print("reward gap",optimal_reward-reward)
                 if iter_==0 and ('{}'.format(alg_name))=='UCB1':
                     UCB1.append(optimal_reward-reward)
@@ -199,19 +200,19 @@ class simulateOnlineData:
             self.resultRecord(iter_)
         for alg_name, alg in list(algorithms.items()): 
             plt.plot(UCB1)
-            with open('CUCBgermanfair_AC_wel_p_h.pkl', 'wb') as f:
+            with open('CUCBpokecfair_AC_wel_p_m.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(UCB1, f)
             plt.plot(IMFB)
-            with open('IMFBgermanfair_AC_wel_p_h.pkl', 'wb') as f:
+            with open('IMFBpokecfair_AC_wel_p_m.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(IMFB, f)
             plt.plot(e_gred)
-            with open('egredgermanfair_AC_wel_p_h.pkl', 'wb') as f:
+            with open('egredpokecfair_AC_wel_p_m.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(e_gred, f)
             plt.plot(Lin_UCB)
-            with open('LinUCBgermanfair_AC_wel_p_h.pkl', 'wb') as f:
+            with open('LinUCBpokecfair_AC_wel_p_m.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(Lin_UCB, f)
             plt.xlabel('Time Steps')
@@ -267,12 +268,17 @@ class simulateOnlineData:
         plt.savefig('./SimulationResults/AcuReward' + str(self.startTime.strftime('_%m_%d_%H_%M'))+'.pdf')
         plt.show()
 
+        #for alg_name in algorithms.keys():  
+        #    try:
+        #        loss = algorithms[alg_name].getLoss()
+        #    except:
+        #        continue
         for alg_name in algorithms.keys():  
             try:
                 loss = algorithms[alg_name].getLoss()
             except:
                 continue
-            '''
+            print("loss is",loss)
             f, ax1 = plt.subplots()
             color = 'tab:red'
             ax1.set_xlabel("Iteration")
@@ -280,18 +286,18 @@ class simulateOnlineData:
             ax1.plot(self.tim_, loss[:, 0], color=color, label='Probability')
             ax1.tick_params(axis='y', labelcolor=color)
 
-            ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-            ax2.set_ylabel('Loss of Theta and Beta', color='tab:blue')  # we already handled the x-label with ax1
-            ax2.plot(self.tim_, loss[:, 1], color='tab:blue', linestyle=':', label = r'$\theta$')
-            ax2.plot(self.tim_, loss[:, 2], color='tab:blue', linestyle='--', label = r'$\beta$')
-            ax2.tick_params(axis='y', labelcolor='tab:blue')
-            ax2.legend(loc='upper left',prop={'size':9})
-            f.tight_layout()  # otherwise the right y-label is slightly clipped
+            #ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+            #ax2.set_ylabel('Loss of Theta and Beta', color='tab:blue')  # we already handled the x-label with ax1
+            #ax2.plot(self.tim_, loss[:, 1], color='tab:blue', linestyle=':', label = r'$\theta$')
+            #ax2.plot(self.tim_, loss[:, 2], color='tab:blue', linestyle='--', label = r'$\beta$')
+            #ax2.tick_params(axis='y', labelcolor='tab:blue')
+            #ax2.legend(loc='upper left',prop={'size':9})
+            #f.tight_layout()  # otherwise the right y-label is slightly clipped
             plt.savefig('./SimulationResults/Loss' + str(self.startTime.strftime('_%m_%d_%H_%M'))+'.pdf')
             plt.show()
-            '''
             np.save('./SimulationResults/Loss-{}'.format(alg_name) + str(self.startTime.strftime('_%m_%d_%H_%M'))+'.npy', loss)
-        
+
+
 import ast
 if __name__ == '__main__':
     start = time.time()
@@ -316,9 +322,9 @@ if __name__ == '__main__':
     #print(Node_attr)
     nx.set_node_attributes(G, values = Node_attr, name='node_type') 
     feature_dic = pickle.load(open(edge_feature_address, 'rb'), encoding='latin1')
-    #print(feature_dic)
-    feature_dic=ast.literal_eval(feature_dic)
-    print(feature_dic)
+    #print(type(feature_dic))
+    #feature_dic=ast.literal_eval(feature_dic)
+    #print(feature_dic[0])
     #print(type(feature_dic))
     #print(feature_dic)
     #print(feature_dic.keys())
@@ -343,7 +349,7 @@ if __name__ == '__main__':
     algorithms['egreedy_0.1'] = eGreedyAlgorithm(G, seed_size, oracle, 0.1)
     algorithms['LinUCB'] = LinUCBAlgorithm(G, seed_size, oracle, dimension, alpha_1, lambda_, feature_dic)
     node_list=G.nodes()
-    algorithms['LinUCB'] = N_LinUCBAlgorithm(G,P,parameter,seed_size, oracle, dimension, alpha_1, lambda_, feature_dic,1)
+    algorithms['LinUCB'] = N_LinUCBAlgorithm(G,P,parameter,seed_size, oracle, dimension*dimension, alpha_1, lambda_, feature_dic,1)
     algorithms['IMFB'] = MFAlgorithm(G, P, parameter, seed_size, oracle, dimension)
 
     simExperiment.runAlgorithms(algorithms)

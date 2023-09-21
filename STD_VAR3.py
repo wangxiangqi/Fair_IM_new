@@ -15,15 +15,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Read data from the first .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/CUCBgermanIAC_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/CUCBgermanIAC_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/CUCBgermanIAC_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/CUCBgermanIAC_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 # Read data from the third .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/CUCBgermanIAC_AC_wel_p_n_3.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/CUCBgermanIAC_AC_wel_p_h_3.pkl', 'rb') as f:
     data3 = pickle.load(f)
 
 #print(data1)
@@ -52,7 +52,7 @@ print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
 #plt.errorbar(X_combined,y_combined, yerr=std_combined, color='lightblue', ecolor='lightblue', capsize=0)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 plt.gca().set_zorder(1)
 
@@ -67,15 +67,15 @@ plt.plot(X_list, mean_arr, color='red', markersize=1, label="CUCB")
 # Show the plot
 # Set labels and title
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/IMFBgermanIAC_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/IMFBgermanIAC_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/IMFBgermanIAC_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/IMFBgermanIAC_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 # Read data from the third .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/IMFBgermanIAC_AC_wel_p_n_3.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/IMFBgermanIAC_AC_wel_p_h_3.pkl', 'rb') as f:
     data3 = pickle.load(f)
 
 #print(data1)
@@ -95,7 +95,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 plt.gca().set_zorder(2)
 
@@ -105,15 +105,15 @@ mean_arr=np.mean([data1, data2, data3], axis=0)
 plt.plot(X_list, mean_arr, color='brown', markersize=1,label="IMFB")
 
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/egredgermanIAC_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/egredgermanIAC_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/egredgermanIAC_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/egredgermanIAC_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 # Read data from the third .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/egredgermanIAC_AC_wel_p_n_3.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/egredgermanIAC_AC_wel_p_h_3.pkl', 'rb') as f:
     data3 = pickle.load(f)
 
 #print(data1)
@@ -133,7 +133,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 plt.gca().set_zorder(3)
 
@@ -143,15 +143,15 @@ mean_arr=np.mean([data1, data2, data3], axis=0)
 plt.plot(X_list, mean_arr, color='purple', markersize=1, label="egred")
 
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/LinUCBgermanIAC_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/LinUCBgermanIAC_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/LinUCBgermanIAC_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/LinUCBgermanIAC_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 # Read data from the third .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/IAC/LinUCBgermanIAC_AC_wel_p_n_3.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/IAC/LinUCBgermanIAC_AC_wel_p_h_3.pkl', 'rb') as f:
     data3 = pickle.load(f)
 
 #print(data1)
@@ -174,7 +174,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 
 plt.gca().set_zorder(4)
@@ -183,11 +183,11 @@ mean_arr=np.mean([data1, data2, data3], axis=0)
 
 plt.plot(X_list, mean_arr, color='black', markersize=1, label="LinUCB")
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/LinUCBgermanfair_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/LinUCBgermanfair_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/LinUCBgermanfair_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/LinUCBgermanfair_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 # Read data from the third .pkl file
@@ -211,7 +211,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 
 plt.gca().set_zorder(4)
@@ -220,11 +220,11 @@ mean_arr=np.mean([data1, data2], axis=0)
 
 plt.plot(X_list, mean_arr, color='orange', markersize=1, label="LinUCB_fair")
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/CUCBgermanfair_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/CUCBgermanfair_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/CUCBgermanfair_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/CUCBgermanfair_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 #print(data1)
@@ -246,7 +246,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 
 plt.gca().set_zorder(4)
@@ -255,11 +255,11 @@ mean_arr=np.mean([data1, data2], axis=0)
 
 plt.plot(X_list, mean_arr, color='green', markersize=1, label="CUCB_fair")
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/egredgermanfair_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/egredgermanfair_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/egredgermanfair_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/egredgermanfair_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 #print(data1)
 X_list=list(range(len(data1)))
@@ -280,7 +280,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 
 plt.gca().set_zorder(4)
@@ -289,11 +289,11 @@ mean_arr=np.mean([data1, data2], axis=0)
 
 plt.plot(X_list, mean_arr, color='grey', markersize=1, label="egred_fair")
 
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/IMFBgermanfair_AC_wel_p_n.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/IMFBgermanfair_AC_wel_p_h.pkl', 'rb') as f:
     data1 = pickle.load(f)
 
 # Read data from the second .pkl file
-with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha+neg_2/fair/IMFBgermanfair_AC_wel_p_n_2.pkl', 'rb') as f:
+with open('E:/summer_intern/Hua_zheng_Wang/IMFB-KDD2019-master/presentation/german/STD_VAR/wel_IAC/alpha_0.5/fair/IMFBgermanfair_AC_wel_p_h_2.pkl', 'rb') as f:
     data2 = pickle.load(f)
 
 # Read data from the third .pkl file
@@ -317,7 +317,7 @@ print(len(X_combined))
 print(len(y_combined))
 # Plot the combined data with error bars
 #plt.figure(1)
-plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.2)
+plt.fill_between(X_combined, y_combined - std_combined, y_combined + std_combined, alpha=0.1)
 #plt.legend()
 
 plt.gca().set_zorder(4)

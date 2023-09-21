@@ -20,6 +20,7 @@ class LinUCBUserStruct:
 		
 	def updateParameters(self, articlePicked_FeatureVector, click):
 		articlePicked_FeatureVector = np.array(articlePicked_FeatureVector)[:, np.newaxis, np.newaxis, np.newaxis].flatten()
+		# Used if the feature is 4
 		self.A += np.outer(articlePicked_FeatureVector,articlePicked_FeatureVector)
 		#print(self.b)
 		#print(articlePicked_FeatureVector)
@@ -39,6 +40,8 @@ class LinUCBUserStruct:
 		return self.A
 
 	def getProb(self, alpha, article_FeatureVector):
+		#print(self.UserTheta)
+		#print(article_FeatureVector)
 		mean = np.dot(self.UserTheta,  article_FeatureVector)
 		var = np.sqrt(np.dot(np.dot(article_FeatureVector, self.AInv),  article_FeatureVector))
 		pta = mean + alpha * var
@@ -94,6 +97,7 @@ class N_LinUCBAlgorithm:
 				self.arms[(u, v)].updateParameters(reward=reward)
 				# reward = self.arms[(u, v)].averageReward    #####Average Reward
 				self.users[u].updateParameters(featureVector, reward)
+				featureVector=np.array(featureVector).flatten()
 				self.currentP[u][v]['weight']  = self.users[v].getProb(self.alpha, featureVector)
 
 				estimateP = self.currentP[u][v]['weight']

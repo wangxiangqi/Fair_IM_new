@@ -205,17 +205,28 @@ for edge in graph.edges():
     source, target = list(edge)[0], list(edge)[1]
     #reader = reader.apply((reader[reader.iloc[:, 0] == source],reader[reader.iloc[:, 0] == target]), axis=1)
     empty_arr=[]
-    empty_arr.append(cosine_similarity(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
-    empty_arr.append(dice_ratio(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
-    empty_arr.append(jaccard_similarity(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
-    empty_arr.append(pearson_correlation(model['node_features'][int(source)][1:7], model['node_features'][int(target)][1:7]))
+    empty_arr.append(np.outer(list(reader.iloc[source])[2:6], list(reader.iloc[target])[2:6]))
+    empty_arr=normalize_columns(empty_arr)
+    empty_arr=np.nan_to_num(empty_arr,nan=1)
+    #for sublist in range(len(empty_arr)):
+    #    for i in range(len(empty_arr[sublist])):
+    #        if isinstance(i,float)==0:
+    #            print(sublist,i)
+    #            empty_arr[sublist][i]=0.1
+    #empty_arr=normalize_columns(empty_arr)
+    #empty_arr.append(cosine_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #empty_arr.append(dice_ratio(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #empty_arr.append(jaccard_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #empty_arr.append(pearson_correlation(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
+    #print("empty_arr",empty_arr)
+    To_load.append(empty_arr)
     #A=[]
     #A.append(empty_arr)
     #A.append(empty_arr)
     #A.append(empty_arr)
     #A.append(empty_arr)
     #A=empty_arr*1
-    To_load.append(empty_arr)
+    #To_load.append(empty_arr)
     #To_load.append(empty_arr)
     #To_load.append(empty_arr)
     #To_load.append(empty_arr)
@@ -231,9 +242,9 @@ for edge in graph.edges():
     Edge_feature_dic[(source, target)]=To_load[record]
     record+=1
 #print(Edge_feature_dic)
-Edge_feature_dic = {(int(k[0]), int(k[1])): [float(x) for x in v] for k, v in Edge_feature_dic.items()}
+Edge_feature_dic = {(k[0], k[1]): list(v) for k, v in Edge_feature_dic.items()}
 with open('./edge_feature.dic', 'wb') as f:
-    pickle.dump(str(Edge_feature_dic), f)
+    pickle.dump(Edge_feature_dic, f)
 
 
 
