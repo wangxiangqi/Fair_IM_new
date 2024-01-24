@@ -212,7 +212,7 @@ print(Edge_feature_dic)
 Edge_feature_dic = {(k[0], k[1]): list(v) for k, v in Edge_feature_dic.items()}
 print(Edge_feature_dic)
 with open('edge_feature.dic', 'wb') as f:
-    pickle.dump(str(Edge_feature_dic), f)
+    pickle.dump(Edge_feature_dic, f)
 
 
 

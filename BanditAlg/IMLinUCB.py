@@ -19,7 +19,7 @@ class LinUCBUserStruct:
 		self.pta_max = 1
 		
 	def updateParameters(self, articlePicked_FeatureVector, click):
-		articlePicked_FeatureVector = np.array(articlePicked_FeatureVector)[:, np.newaxis, np.newaxis, np.newaxis].flatten()
+		articlePicked_FeatureVector = np.array(articlePicked_FeatureVector).flatten()
 		# Used if the feature is 4
 		self.A += np.outer(articlePicked_FeatureVector,articlePicked_FeatureVector)
 		#print(self.b)
@@ -43,7 +43,9 @@ class LinUCBUserStruct:
 		#print(self.UserTheta)
 		#print(article_FeatureVector)
 		mean = np.dot(self.UserTheta,  article_FeatureVector)
+		#print("mean",mean)
 		var = np.sqrt(np.dot(np.dot(article_FeatureVector, self.AInv),  article_FeatureVector))
+		#print("var",var)
 		pta = mean + alpha * var
 		if pta > self.pta_max:
 			pta = self.pta_max
@@ -52,6 +54,7 @@ class LinUCBUserStruct:
 		#print pta, mean, alpha*var
 		# if mean >0:
 		# 	print 'largerthan0', mean
+		#print("pta",pta)
 		return pta
 
 class N_LinUCBAlgorithm:
@@ -101,8 +104,11 @@ class N_LinUCBAlgorithm:
 				self.currentP[u][v]['weight']  = self.users[v].getProb(self.alpha, featureVector)
 
 				estimateP = self.currentP[u][v]['weight']
+				#print("estimateP:",estimateP)
 				trueP = self.trueP[u][v]['weight']
+				#print("trueP",trueP)
 				loss_p += np.abs(estimateP-trueP)
+				#	print("loss_p",loss_p)
 				count += 1
 		self.list_loss.append([loss_p/count])
 	def getCoTheta(self, userID):

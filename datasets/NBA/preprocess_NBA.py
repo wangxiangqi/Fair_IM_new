@@ -159,6 +159,7 @@ for edge in edges:
     empty_arr=[]
     empty_arr.append(np.outer(list(reader.iloc[source])[3:7], list(reader.iloc[target])[3:7]))
     empty_arr=normalize_columns(empty_arr)
+    empty_arr=np.nan_to_num(empty_arr,nan=1)
     #empty_arr.append(cosine_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
     #empty_arr.append(dice_ratio(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
     #empty_arr.append(jaccard_similarity(list(reader.iloc[source])[8:], list(reader.iloc[target])[8:]))
@@ -179,7 +180,7 @@ for edge in edges:
 #print(Edge_feature_dic)
 Edge_feature_dic = {(k[0], k[1]): list(v) for k, v in Edge_feature_dic.items()}
 with open('edge_feature.dic', 'wb') as f:
-    pickle.dump(str(Edge_feature_dic), f)
+    pickle.dump(Edge_feature_dic, f)
 
 
 

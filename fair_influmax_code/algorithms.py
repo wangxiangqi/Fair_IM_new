@@ -3,6 +3,8 @@ from utils import greedy
 from scipy.linalg import fractional_matrix_power
 from numba import jit
 import random
+
+
 def indicator(S, n):
     x = np.zeros(n)
     x[list(S)] = 1
@@ -27,6 +29,7 @@ def make_normalized(f, targets):
         return f(x, *args)@np.diag(1./targets)
     return normalized
 
+stor_TO_B=[]
 def make_welfare(f, targets,alpha=-2):
     def wel(x, *args):
         #portion=f(x, *args)@np.diag(1./targets)
@@ -34,10 +37,13 @@ def make_welfare(f, targets,alpha=-2):
         TO_B=f(x, *args)
         #print("targets",targets)
         #print(TO_B)
+        global stor_TO_B
         if TO_B is not None:
             matrix=TO_B@np.diag(1./targets)
+            stor_TO_B=TO_B
         else:
-            matrix=np.diag(1./targets)
+            #TO_B=stor_TO_B
+            matrix=stor_TO_B@np.diag(1./targets)
         #print("matrix",matrix)
         max_dim = max(matrix.shape)
         #print("max_dim is",max_dim)
@@ -45,11 +51,8 @@ def make_welfare(f, targets,alpha=-2):
         #padded_matrix = np.pad(matrix, ((0,abs(max_dim - matrix.shape[0])), (0, abs(max_dim - matrix.shape[1]))), mode="linear_ramp")
         #padded_matrix=np.linalg.pinv(padded_matrix)
         #print("padded_matrix is",padded_matrix)
-        if alpha>0:
-            #padded_matrix = np.pad(matrix, ((0, max_dim - matrix.shape[0]), (0, max_dim - matrix.shape[1])))
-            temp=len(targets)*np.power(matrix,alpha)/alpha
-        else:
-            temp=len(targets)*np.power(matrix,alpha)/alpha
+         #padded_matrix = np.pad(matrix, ((0, max_dim - matrix.shape[0]), (0, max_dim - matrix.shape[1])))
+        temp=len(targets)*np.power(matrix,alpha)/alpha
         #result = temp[:matrix.shape[0], :matrix.shape[1]]
         return temp
     return wel
@@ -66,8 +69,12 @@ def make_contracted_function(f, S):
         return f(x, *args)
     return contracted
 
+def is_2d_list(lst):
+    if isinstance(lst, list) and len(lst) > 0:
+        return isinstance(lst[0], list)
+    return False
 
-def mirror_sp(x, grad_oracle, k, group_indicator, group_targets, num_iter, step_size = 5, batch_size = 200, verbose=False):
+def mirror_sp(x, grad_oracle, k, group_indicator, group_targets, num_iter, step_size = 5, batch_size = 20, verbose=False):
     '''
     Uses stochastic saddle point mirror descent to solve the inner maxmin linear
     optimization problem.
@@ -87,17 +94,22 @@ def mirror_sp(x, grad_oracle, k, group_indicator, group_targets, num_iter, step_
         #get a stochastic estimate of the gradient for each player
         #print("x before grad_oracle",x)
         g = grad_oracle(x, batch_size)
+        #gh=[]
+        #for i in range(v.shape[0]):
+        #    gh.append(g)
         temp_we=[0.00202429]*v.shape[0]
         #print(temp_we)
         if g is None:
-            g=grad_oracle(x, 400)
+            g=grad_oracle(x, 10)
             print("tuned None")
-        #g=np.diag(temp_we)[:v.shape[0],:y.shape[0]]
-        for i in range(len(g)):
-            for j in range(len(g[i])):
-                if g[i][j] == float('-inf'):
-                    g[i][j] = 1
-        #print("g is",g)
+        if is_2d_list(g)==False:
+            g=np.diag(temp_we)[:v.shape[0],:y.shape[0]]
+            #g[np.isneginf(g)] = -1
+        #print("g",g)
+        else:
+            for i in range(len(g)):
+                g[i][np.isneginf(g[i])] = -1
+        #print("g is",g.shape)
         #print("group weights",np.diag(group_weights))
         group_grad = g @ np.diag(group_weights)
         #print("shape of group_grad",group_grad.shape)
@@ -113,7 +125,7 @@ def mirror_sp(x, grad_oracle, k, group_indicator, group_targets, num_iter, step_
         #group_grad=np.array(group_grad)[:v.shape[1],y.shape[0]]
         #print("new matrix",group_grad)
         grad_v = group_grad@y
-        grad_y = np.dot(v,group_grad)
+        grad_y = v@group_grad
         #Use broadcast
         #gradient step
         v = v * np.exp(step_size*grad_v)
@@ -190,7 +202,7 @@ def multiobjective_fw(grad_oracle, val_oracle, k, group_indicator, group_targets
     for t in range(num_iter-1):
         #how far each group currently is from the target
         #print("shape of temp",val_oracle((1/num_iter)*x[0:t].sum(axis=0), 5) )
-        iter_targets = group_targets - val_oracle((1/num_iter)*x[0:t].sum(axis=0), 100) 
+        iter_targets = group_targets - val_oracle((1/num_iter)*x[0:t].sum(axis=0), 10) 
         if np.all(iter_targets < 0):
             print('all targets met')
             iter_targets = np.ones(len(group_targets))
@@ -253,17 +265,20 @@ def threshold_include(n_items, val_oracle, threshold):
     for i in range(n_items):
         #print("i",i)
         x[i] = 1
-        #if random.choice([0,0,0,0,0,0,1]):
-        #    vals = val_oracle(x, 3)
-        #    print(vals.max(),threshold)
-        #    if vals.max() >= threshold:
-        #        to_include.append(i)
-        #x[i] = 0
-        vals = val_oracle(x, 3)
-        print(vals.max(),threshold)
+        if random.choice([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]):
+            #print("chosen")
+            vals = val_oracle(x, 2)
+            #print(vals.max(),threshold)
+            if vals.max() >= threshold:
+                to_include.append(i)
+        x[i] = 0
+        """
+        vals = val_oracle(x, 2)
+        #print(vals.max(),threshold)
         if vals.max() >= threshold:
             to_include.append(i)
         x[i] = 0
+        """
     return to_include
 
 
@@ -275,7 +290,7 @@ def algo(grad_oracle, val_oracle, threshold, k, group_indicator, group_targets, 
     print("S is ",S)
     grad_oracle = make_contracted_function(grad_oracle, S)
     val_oracle = make_contracted_function(val_oracle, S)
-    print("successfully build oracles")
+    #print("successfully build oracles")
     x = multiobjective_fw(grad_oracle, val_oracle, k - len(S), group_indicator, group_targets, num_iter, solver)
     #print("x length is",len(x))
     #print("shape of x is",x.shape())

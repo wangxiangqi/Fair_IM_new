@@ -1,7 +1,7 @@
 # Code base for Fairness constraint to bandit-based online Influence Maximization problem
 
 This is the code reposiratory for paper: "Fairness constraint to bandit-based online Influence
-Maximization problem". Paper link is
+Maximization problem".
 
 ## Experiments and previous plots:
 
@@ -33,20 +33,16 @@ Code reposiratory is based on github repo:
 
 Bandit repo: [Matrix-Factorization-Bandit/IMFB-KDD2019: Code for the experiments of Matrix Factorization Bandit (github.com)](https://github.com/Matrix-Factorization-Bandit/IMFB-KDD2019)
 
-Offline Oracle repo: [bwilder0/fair_influmax_code_release: Code for the paper &#34;Group-Fairness in Influence Maximization&#34; (github.com)](https://github.com/bwilder0/fair_influmax_code_release)
+Offline Oracle repo (Frank-Wolfe): [bwilder0/fair_influmax_code_release: Code for the paper &#34;Group-Fairness in Influence Maximization&#34; (github.com)](https://github.com/bwilder0/fair_influmax_code_release)
 
-Migration of offline oracle into online version is the core obstacle.
+Offline Oracle repo(Mixed Integer Programming):
 
 ## Python Environment:
 
 python==3.6, see the requirements.txt
 
-## How to run demo:
+## How to run:
 
-for maxmin run modify in Fair Oracle, for diversity constraint, modify in Fair Oracle
+For parameter setting, refer to conf.py
 
-for welfare run IMBandit.py.(alpha is in Fair_IM_oracle_wel in Fair_Oracle.py, remember to change alpha if trying different cases.)
-
-## Contributors:
-
-Xiangqi Wang, wangxiangqi@mail.ustc.edu.cn
+For run on the configuration, refer to IMBandit.py

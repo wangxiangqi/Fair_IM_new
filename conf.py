@@ -1,7 +1,9 @@
 import os
 from Oracle.generalGreedy import generalGreedy
 from Oracle.degreeDiscount import degreeDiscountIC, degreeDiscountIC2, degreeDiscountIAC, degreeDiscountIAC2, degreeDiscountStar, degreeDiscountIAC3
-from Oracle.Fair_Oracle import Fair_IM_oracle, optimal_gred
+from Oracle.Fair_Oracle import Fair_IM_oracle, optimal_gred, test_fair_im_oracle
+from Oracle.MIPOracle import MIP_IM_DC, MIP_IM
+
 
 
 save_address = "./SimulationResults"
@@ -23,7 +25,7 @@ save_address = "./SimulationResults"
 # param_address = './datasets/NetHEPT/Small_nodeFeatures.dic'
 # edge_feature_address = './datasets/NetHEPT/Small_edgeFeatures.dic'
 # dataset = 'NetHEPT' #Choose from 'default', 'NetHEPT', 'Flickr'
-"""
+
 graph_address = './datasets/NBA/nba_relationship.G'
 prob_address = './datasets/NBA/prob.dic'
 param_address = './datasets/NBA/parameter.dic'
@@ -32,7 +34,7 @@ edge_feature_address = './datasets/NBA/edge_feature.dic'
 # Choose the third column of edge feature as class feature
 class_feature_address = './datasets/NBA/country.dic'
 dataset = 'NBA' #Choose from 'default', 'NetHEPT', 'Flickr'
-"""
+
 """
 graph_address = './datasets/german/german_relationship.G'
 prob_address = './datasets/german/german_prob.dic'
@@ -43,7 +45,7 @@ edge_feature_address = './datasets/german/edge_feature.dic'
 class_feature_address = './datasets/german/Age.dic'
 dataset = 'german' #Choose from 'default', 'NetHEPT', 'Flickr'
 """
-
+"""
 graph_address = './datasets/pokec/pokec_relationship.G'
 prob_address = './datasets/pokec/prob.dic'
 param_address = './datasets/pokec/parameter.dic'
@@ -53,13 +55,24 @@ edge_feature_address = './datasets/pokec/edge_feature.dic'
 class_feature_address = './datasets/pokec/gender.dic'
 #I made a mistake here, actually the distribution is age that I selected.
 dataset = 'pokec' #Choose from 'default', 'NetHEPT', 'Flickr'
+"""
+"""
+graph_address = './datasets/bail/bail_relationship.G'
+prob_address = './datasets/bail/bail_prob.dic'
+param_address = './datasets/bail/parameter.dic'
+edge_feature_address = './datasets/bail/edge_feature.dic'
+# For simulation on Fair IM, we need to choose a different dataset which includes class information
+# Choose the third column of edge feature as class feature
+class_feature_address = './datasets/bail/White.dic'
+dataset = 'bail' #Choose from 'default', 'NetHEPT', 'Flickr'
+"""
 
 alpha_1 = 0.1
 alpha_2 = 0.1
 lambda_ = 0.4
 gamma = 0.1
 dimension = 4
-seed_size = 300
+seed_size = 10
 iterations = 200
 
-oracle = degreeDiscountIAC3
+oracle = Fair_IM_oracle
