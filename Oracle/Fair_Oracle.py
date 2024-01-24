@@ -2,7 +2,6 @@ import numpy as np
 import sys
 sys.path.append('./fair_influmax_code')
 sys.path.append('./Oracle')
-#sys.path.append('E:/summer_intern/official_pokec/IC')
 from degreeDiscount import degreeDiscountIC, degreeDiscountIC2, degreeDiscountIAC, degreeDiscountIAC2, degreeDiscountStar, degreeDiscountIAC3
 from generalGreedy import generalGreedy
 from utils import greedy

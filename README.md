@@ -5,27 +5,7 @@ Maximization problem".
 
 ## Experiments and previous plots:
 
-alpha is 1.2 in these experiments.
-
-We also tried alpha=0.5 in some case.
-
-Experiments on NBA dataset:
-
-seed size is 100, run 100 iteration,  regret plots can be found in ./presentation/NBA folder.
-
-Initial propagation probability in edge allocated as 2.
-
-Experiments on german dataset:
-
-seed size is 300, run 100 iteration,  regret plots can be found in ./presentation/german folder
-
-Initial propagation probability in edge allocated as 2.
-
-Experiments on
-
-seed size is 300, run 100 iteration, regret plots can be found in ./presentation/pokec folder
-
-Initial propagation probability in edge allocated as 2.
+For the use of each folder, refer to its content.
 
 ## Brief explanation of code:
 
@@ -35,7 +15,8 @@ Bandit repo: [Matrix-Factorization-Bandit/IMFB-KDD2019: Code for the experiments
 
 Offline Oracle repo (Frank-Wolfe): [bwilder0/fair_influmax_code_release: Code for the paper &#34;Group-Fairness in Influence Maximization&#34; (github.com)](https://github.com/bwilder0/fair_influmax_code_release)
 
-Offline Oracle repo(Mixed Integer Programming):
+Offline Oracle repo(Mixed Integer Programming): . A Unifying Framework
+for Fairness-Aware Influence Maximization.
 
 ## Python Environment:
 
