@@ -142,9 +142,9 @@ def Fair_IM_oracle(G,K,currentPg):
         all_opt = np.array([opt_attr[val] for val in values])
 
         solver="md"
-        threshold = 110
-        #threshold 110 for NBA datasets, 2 for alpha-0.5 case, 0.1 for alpha=2 case, -50 for alpha=-2 case, 1 for maxmin case
-        #threshold 150 for german dataset, -30 for negative alpha, 4.3 for alpha=0.5, 0.1 for alpha=2
+        threshold = 115
+        #threshold 115 for NBA datasets, 2 for alpha-0.5 case, 0.1 for alpha=2 case, -50 for alpha=-2 case, 1 for maxmin case
+        #threshold 140 for german dataset, -30 for negative alpha, 4.3 for alpha=0.5, 0.1 for alpha=2
         #threshold 1300 for pokec dataset, 0.2 for maxmin case, 0.05 for alpha=2 case, 1.8 for alpha=0.5, -100 for alpha=-2
         targets = [opt_attr[val] for val in values]
         #print("S_att is",S_attr)
@@ -200,12 +200,20 @@ def test_fair_im_oracle(G,K,currentPg):
     return set_to_fair
 
 group_size = {}
-def optimal_gred(G,K,attributes,P=0.1,alpha=0.5):
+def optimal_gred(G,K,currentPg):
     for attribute in attributes:
         nvalues = len(np.unique([G.node[v]['node_type'][attribute] for v in G.nodes()]))
         group_size[attribute] = np.zeros((1, nvalues))
 
-    live_graphs = sample_live_icm(G, 30)
+    live_graphs = sample_live_icm(G, 10)
+    """
+    estimation_error=0
+    for graph in live_graphs:
+        for (u,v) in graph.edges():
+            estimation_error=max(np.abs(G[u][v]['weight']-graph[u][v]['p']),estimation_error)
+
+    print("estimation error is",estimation_error)
+    """
     group_indicator = np.ones((len(G.nodes()), 1))
         
     val_oracle = make_multilinear_objective_samples_group(live_graphs, group_indicator,  list(G.nodes()), list(G.nodes()), np.ones(len(G)))
@@ -220,7 +228,7 @@ def optimal_gred(G,K,attributes,P=0.1,alpha=0.5):
 
 
     def f_multi(x):
-        return val_oracle(x, 20).sum()
+        return val_oracle(x, 10).sum()
     
     fair_vals_attr = np.zeros((1, len(attributes)))
     greedy_vals_attr = np.zeros((1, len(attributes)))
@@ -244,5 +252,6 @@ def optimal_gred(G,K,attributes,P=0.1,alpha=0.5):
             return f(x, 10)[i]
         return f_single
     #print("about to run greedy")
+    #This is the case that the 
     S_opop, obj = greedy(list(range(len(G))), K, f_set)
     return list(S_opop)

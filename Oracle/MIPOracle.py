@@ -14,10 +14,10 @@ import numpy, random
 import argparse
 from MIPDC import Mont_Carlo_Samplig, stage_1_MIP, induce_sub_graphs
 
-attribute=["key1"]
+attribute=["key5"]
 
 def MIP_IM(input_graph,budget, currentPg):
-    m=100
+    m=10
     main_graph = input_graph
 
     samples = []
@@ -33,7 +33,7 @@ def MIP_IM(input_graph,budget, currentPg):
 
     model = Model('group_maximin_'+'NBA')
     model.setParam('OutputFlag', 0)
-    model.setParam('TimeLimit', 240)
+    model.setParam('TimeLimit', 10)
     
     min_value = model.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS)
     
@@ -133,7 +133,7 @@ def MIP_IM(input_graph,budget, currentPg):
 
 def MIP_IM_DC( input_graph,budget, currentPg):
     #budget = 25
-    m=100
+    m=10
     #with open(input_graph, "rb") as f:
     main_graph = input_graph
     labels = nx.get_node_attributes(main_graph, "node_type")
@@ -167,7 +167,7 @@ def stage_2_MIP(main_graph, opt_dict, attribute, label_dict, budget ,m, index):
     model_name = 'DC_stage_2'+str(attribute)+'_'+str(index)
     model = Model(model_name)
     model.setParam('OutputFlag', 0)
-    model.setParam('TimeLimit', 120)
+    model.setParam('TimeLimit', 5)
         
     mvars = []
     #active nodes

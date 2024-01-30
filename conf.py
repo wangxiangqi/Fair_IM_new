@@ -1,5 +1,4 @@
 import os
-from Oracle.generalGreedy import generalGreedy
 from Oracle.degreeDiscount import degreeDiscountIC, degreeDiscountIC2, degreeDiscountIAC, degreeDiscountIAC2, degreeDiscountStar, degreeDiscountIAC3
 from Oracle.Fair_Oracle import Fair_IM_oracle, optimal_gred, test_fair_im_oracle
 from Oracle.MIPOracle import MIP_IM_DC, MIP_IM
@@ -75,4 +74,4 @@ dimension = 4
 seed_size = 10
 iterations = 200
 
-oracle = Fair_IM_oracle
+oracle = MIP_IM_DC

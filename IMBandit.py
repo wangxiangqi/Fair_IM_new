@@ -23,10 +23,12 @@ from icm import sample_live_icm, make_multilinear_objective_samples_group, make_
 from algorithms import algo, maxmin_algo, make_normalized, indicator
 
 
-alpha = 0.5
+alpha = 2
 attributes=["key5"]
 #key5 for NBA
 #key1 for bail
+#key3 for NBA
+#key2 for pokec
 
 def multi_to_set(f, n = None):
     '''
@@ -204,21 +206,21 @@ class simulateOnlineData:
         for alg_name, alg in list(algorithms.items()): 
             
             plt.plot(UCB1)
-            with open('CUCBNBAfair_AC_d_2.pkl', 'wb') as f:
+            with open('CUCB-MIP.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(UCB1, f)
             plt.plot(IMFB)
-            with open('IMFBNBAfair_AC_d_2.pkl', 'wb') as f:
+            with open('IMFB-MIP.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(IMFB, f)
             plt.plot(e_gred)
-            with open('egredNBAfair_AC_d_2.pkl', 'wb') as f:
+            with open('egred-MIP.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(e_gred, f)
             
             
             plt.plot(Lin_UCB)
-            with open('LinUCBNBAfair_AC_d_2.pkl', 'wb') as f:
+            with open('LinUCB-MIP.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(Lin_UCB, f)
             
@@ -287,7 +289,7 @@ class simulateOnlineData:
                 continue
             print("alg_name is",alg_name)
             print("loss is",loss)
-            #f, ax1 = plt.subplots()
+            f, ax1 = plt.subplots()
             #color = 'tab:red'
             #ax1.set_xlabel("Iteration")
             #ax1.set_ylabel('Loss of Probability', color=color)
@@ -303,7 +305,7 @@ class simulateOnlineData:
             #f.tight_layout()  # otherwise the right y-label is slightly clipped
             #plt.savefig('./SimulationResults/Loss' + str(self.startTime.strftime('_%m_%d_%H_%M'))+'.pdf')
             #plt.show()
-            #np.save('./Loss_of_probability/NBAc/wel_func/alpha_2/Loss-{}'.format(alg_name) + 'NBAfair_AC_d_2'+'.npy', loss)
+            #np.save('./paper_plots/Loss_of_probability/NBA-10/wel_func/alpha_2/Loss-{}'.format(alg_name) + '-FW'+'.npy', loss)
 
 
 import ast
@@ -323,21 +325,13 @@ if __name__ == '__main__':
         if key in G.nodes():
             value=parameter[key]
             merged_list = [val for sublist in value for val in sublist]
-            my_d_2ict = {f'key{i+1}': val for i, val in enumerate(merged_list)}
-            my_d_2ict = {key: my_d_2ict}
-            Node_attr.update(my_d_2ict)
+            my_dict = {f'key{i+1}': val for i, val in enumerate(merged_list)}
+            my_dict = {key: my_dict}
+            Node_attr.update(my_dict)
     import networkx as nx
     #print(Node_attr)
     nx.set_node_attributes(G, values = Node_attr, name='node_type') 
-    feature_d_2ic = pickle.load(open(edge_feature_address, 'rb'), encoding='latin1')
-    #print(type(feature_d_2ic))
-    #feature_d_2ic=ast.literal_eval(feature_d_2ic)
-    #print(feature_d_2ic[0])
-    #print(type(feature_d_2ic))
-    #print(feature_d_2ic)
-    #print(feature_d_2ic.keys())
-    #print(feature_d_2ic[(6057, 6161)])
-    #print(G.edges())
+    feature_dic = pickle.load(open(edge_feature_address, 'rb'), encoding='latin1')
     P = nx.DiGraph()
     for (u,v) in G.edges():
         #print("prob",prob[(u,v)])
@@ -355,9 +349,9 @@ if __name__ == '__main__':
     algorithms = {}
     algorithms['UCB1'] = UCB1Algorithm(G, P, parameter, seed_size, oracle)
     algorithms['egreedy_0.1'] = eGreedyAlgorithm(G, seed_size, oracle, 0.1)
-    #algorithms['LinUCB'] = LinUCBAlgorithm(G, seed_size, oracle, dimension, alpha_1, lambda_, feature_d_2ic)
+    #algorithms['LinUCB'] = LinUCBAlgorithm(G, seed_size, oracle, dimension, alpha_1, lambda_, feature_dic)
     node_list=G.nodes()
-    algorithms['LinUCB'] = N_LinUCBAlgorithm(G,P,parameter,seed_size, oracle, dimension*dimension, alpha_1, lambda_, feature_d_2ic, 1)
+    algorithms['LinUCB'] = N_LinUCBAlgorithm(G,P,parameter,seed_size, oracle, dimension*dimension, alpha_1, lambda_, feature_dic, 1)
     algorithms['IMFB'] = MFAlgorithm(G, P, parameter, seed_size, oracle, dimension)
 
     simExperiment.runAlgorithms(algorithms)
