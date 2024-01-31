@@ -1,8 +1,9 @@
 import os
 from Oracle.degreeDiscount import degreeDiscountIC, degreeDiscountIC2, degreeDiscountIAC, degreeDiscountIAC2, degreeDiscountStar, degreeDiscountIAC3
 from Oracle.Fair_Oracle import Fair_IM_oracle, optimal_gred, test_fair_im_oracle
+#Fair_IM_oracle is oracle for Frank-Wolfe algorithm
 from Oracle.MIPOracle import MIP_IM_DC, MIP_IM
-
+#MIP_IM is MIP for maximin fair oracle
 
 
 save_address = "./SimulationResults"
