@@ -19,17 +19,17 @@ for file in files:
     #    data=np.array(data)[:,0]
     axs[0].plot(data, label=file[35:-4])
 
-axs[0].set_ylabel("{}".format("Regret"), fontsize=25)
+axs[0].set_ylabel("{}".format("Regret"), fontsize=35)
 #plt.tick_params(axis="both",label_size=14)
 #plt.legend(prop={"size":12})  # Add legend
-axs[0].set_xlabel("{}".format("Iteration Times"), fontsize=25)
+axs[0].set_xlabel("{}".format("Iteration Times"), fontsize=35)
 #plt.tight_layout()
-axs[0].set_title("{}".format("MIP Diversity Regret"), fontsize=25)
+axs[0].set_title("{}".format("MIP Diversity Regret"), fontsize=30)
 #plt.tick_params(axis='x', labelsize=14)
 #plt.tick_params(axis='y', labelsize=14)
-axs[0].tick_params(axis='both', which='major', labelsize=25)
+axs[0].tick_params(axis='both', which='major', labelsize=30)
 
-axs[0].legend(loc='lower center',bbox_to_anchor=(1, 1.03), ncol=4, fontsize=25)
+axs[0].legend(loc='lower center',bbox_to_anchor=(1, 1.04), ncol=4, fontsize=30)
 
 files = glob.glob('./MIP_oracle_comp/NBA-10/maximin/*.pkl')
 
@@ -44,12 +44,12 @@ for file in files:
     #    data=np.array(data)[:,0]
     axs[1].plot(data, label=file[26:-4])
 
-axs[1].set_ylabel("{}".format("Regret"), fontsize=25)
+axs[1].set_ylabel("{}".format("Regret"), fontsize=35)
 #plt.tick_params(axis="both",label_size=14)
 #plt.legend(prop={"size":12})  # Add legend
-axs[1].set_xlabel("{}".format("Iteration Times"), fontsize=25)
+axs[1].set_xlabel("{}".format("Iteration Times"), fontsize=35)
 #plt.tight_layout()
-axs[1].set_title("{}".format("MIP Maximin Regret"), fontsize=25)
+axs[1].set_title("{}".format("MIP Maximin Regret"), fontsize=30)
 
 
 #plt.tick_params(axis='x', labelsize=14)

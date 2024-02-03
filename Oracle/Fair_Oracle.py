@@ -15,7 +15,7 @@ import numpy as np
 attributes=["key5"]
 #key5 for NBA
 
-alpha=2
+alpha=-2
 
 def runICmodel (G, S, P):
     ''' Runs independent cascade model.
@@ -143,7 +143,7 @@ def Fair_IM_oracle(G,K,currentPg):
 
         solver="md"
         threshold = 115
-        #threshold 115 for NBA datasets, 2 for alpha-0.5 case, 0.1 for alpha=2 case, -50 for alpha=-2 case, 1 for maxmin case
+        #threshold 115 for NBA datasets, 2 for alpha-0.5 case, 0.1 for alpha=2 case, -7 for alpha=-2 case, 1 for maxmin case
         #threshold 140 for german dataset, -30 for negative alpha, 4.3 for alpha=0.5, 0.1 for alpha=2
         #threshold 1300 for pokec dataset, 0.2 for maxmin case, 0.05 for alpha=2 case, 1.8 for alpha=0.5, -100 for alpha=-2
         targets = [opt_attr[val] for val in values]
@@ -177,7 +177,11 @@ def Fair_IM_oracle(G,K,currentPg):
         val_oracle=make_welfare(val_oracle,group_size[attribute][0], alpha)
         wel_x = algo(grad_oracle, val_oracle, threshold, K, group_indicator, np.array(targets), 4, solver)[1:]
         wel_x = wel_x.mean(axis=0)
-        set_to_fair=[i for i, x in enumerate(wel_x) if x == 0]
+        #set_to_fair=[i for i, x in enumerate(wel_x) if x == 0]
+        #1 if alpha<0
+        #0 if alpha>0
+        set_to_fair=[i for i, x in enumerate(wel_x) if x == 1]
+        #Later is for alpha<0
         print("set_to_fair",set_to_fair)
         """
         

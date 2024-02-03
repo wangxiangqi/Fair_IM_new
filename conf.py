@@ -75,4 +75,4 @@ dimension = 4
 seed_size = 10
 iterations = 200
 
-oracle = MIP_IM_DC
+oracle = Fair_IM_oracle

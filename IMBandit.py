@@ -23,7 +23,7 @@ from icm import sample_live_icm, make_multilinear_objective_samples_group, make_
 from algorithms import algo, maxmin_algo, make_normalized, indicator
 
 
-alpha = 2
+alpha = -2
 attributes=["key5"]
 #key5 for NBA
 #key1 for bail
@@ -133,7 +133,10 @@ def Get_reward_wel(G,seed_size,live_nodes,live_edges):
             influence_ratio=len(intersection_list)/len(set_of_values)
             temp_arr.append(influence_ratio)
         for ratio,(key,item) in zip(temp_arr,nodes_attr.items()):
-            Welfare_reward.append(len(item)*(ratio**alpha)/alpha)
+            if ratio!=0:
+                Welfare_reward.append(len(item)*(ratio**alpha)/alpha)
+            else:
+                Welfare_reward.append(0)
     reward=sum(Welfare_reward)
     #Implement reward under diversity restriction:
     #sum_array = [a + b for a, b in zip(Maximin_reward, Diversity_reward)]
@@ -169,14 +172,14 @@ class simulateOnlineData:
         for iter_ in range(self.iterations):
             optimal_reward, live_nodes, live_edges = runICmodel_n(G, optS, self.TrueP)
             print("live_nodes",len(live_nodes),len(live_edges))
-            optimal_reward=Get_reward(G,self.seed_size,live_nodes,live_edges)
+            optimal_reward=Get_reward_wel(G,self.seed_size,live_nodes,live_edges)
             self.result_oracle.append(optimal_reward)
             print('oracle', optimal_reward)
             
             for alg_name, alg in list(algorithms.items()): 
                 S = alg.decide() 
                 reward, live_nodes, live_edges = runICmodel_n(G, S, self.TrueP)
-                reward=Get_reward(G,self.seed_size,live_nodes,live_edges)
+                reward=Get_reward_wel(G,self.seed_size,live_nodes,live_edges)
                 print("reward gap",optimal_reward-reward)
                 
                 if iter_==0 and ('{}'.format(alg_name))=='UCB1':
@@ -206,21 +209,21 @@ class simulateOnlineData:
         for alg_name, alg in list(algorithms.items()): 
             
             plt.plot(UCB1)
-            with open('CUCB-MIP.pkl', 'wb') as f:
+            with open('CUCBNBAfair_AC_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(UCB1, f)
             plt.plot(IMFB)
-            with open('IMFB-MIP.pkl', 'wb') as f:
+            with open('IMFBNBAfair_AC_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(IMFB, f)
             plt.plot(e_gred)
-            with open('egred-MIP.pkl', 'wb') as f:
+            with open('egredNBAfair_AC_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(e_gred, f)
             
             
             plt.plot(Lin_UCB)
-            with open('LinUCB-MIP.pkl', 'wb') as f:
+            with open('LinUCBNBAfair_AC_p_n.pkl', 'wb') as f:
             # serialize and save set to file
                 pickle.dump(Lin_UCB, f)
             

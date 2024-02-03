@@ -294,11 +294,12 @@ def algo(grad_oracle, val_oracle, threshold, k, group_indicator, group_targets, 
     x = multiobjective_fw(grad_oracle, val_oracle, k - len(S), group_indicator, group_targets, num_iter, solver)
     #print("x length is",len(x))
     #print("shape of x is",x.shape())
+    #print("S is ",S)
     x[:, list(S)] = 1
-    #print("x is", x)
-    #print(x)
-    #print("x length is",len(x))
+    #x[:, list(S)] = 1
+    
     return x
+
 
 def maxmin_algo(grad_oracle, val_oracle, threshold, k, group_indicator, num_iter, num_bin_iter, eps, solver):
     S = threshold_include(group_indicator.shape[0], val_oracle, threshold)

@@ -39,15 +39,15 @@ for i, data in enumerate(data_list):
     plt.plot(data, label=''.join(list(file_names[i])[5:-4]), linewidth=1.0)
 
 #fig=plt.figure(figuresize=(5,3))
-plt.ylabel("{}".format("Estimation Error"), fontsize=20)
+plt.ylabel("{}".format("Estimation Error"), fontsize=25)
 #plt.tick_params(axis="both",label_size=14)
 plt.legend(fontsize=15)  # Add legend
-plt.xlabel("{}".format("Iteration Times"),fontsize=20)
+plt.xlabel("{}".format("Iteration Times"),fontsize=25)
 plt.tight_layout()
-plt.title("{}".format("NBA alpha=2 plot"), fontsize=20)
-plt.tick_params(axis='both', which='major', labelsize=15)
-#plt.tick_params(axis='x', fontsize=20)
-#plt.tick_params(axis='y', fontsize=20)
+plt.title("{}".format("NBA alpha=2 plot"), fontsize=25)
+plt.tick_params(axis='both', which='major', labelsize=20)
+#plt.tick_params(axis='x', fontsize=25)
+#plt.tick_params(axis='y', fontsize=25)
 #fig.subplots_adjust(top=0.9, bottom=0.1,left=0.15,right=0.9)
 plt.savefig('./Loss_prob_plot.png', bbox_inches='tight', dpi=150)
 plt.show()  # Show the plot
