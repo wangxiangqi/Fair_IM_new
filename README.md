@@ -1,7 +1,6 @@
-# Code base for Fairness constraint to bandit-based online Influence Maximization problem
+# Code base for Fair Online Influence Maximization
 
-This is the code reposiratory for paper: "Fairness constraint to bandit-based online Influence
-Maximization problem".
+This is the code reposiratory for paper: "Fair Online Influence Maximization".
 
 ## Explanation of each folder
 
